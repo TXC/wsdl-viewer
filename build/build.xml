@@ -2,7 +2,7 @@
 
 <project name="wsdl-viewer" default="build" basedir="..">
 
-	<property name="version" value="3-1-02"/>
+	<property name="version" value="3-1-04"/>
 
 	<!-- Project directories -->
 	<property name="app" value="${basedir}/src"/>
@@ -20,11 +20,15 @@
 	<property name="dist.zip" value="${dist}/wsdl-viewer_${version}.zip"/>
 	<property name="dist.tar" value="${dist}/wsdl-viewer_${version}.tar"/>
 	<property name="dist.tar.gz" value="${dist}/wsdl-viewer_${version}.tar.gz"/>
+	<property name="dist.tar.bz2" value="${dist}/wsdl-viewer_${version}.tar.bz2"/>
+	<property name="dist.tar.xz" value="${dist}/wsdl-viewer_${version}.tar.xz"/>
 
 	<!-- Test -->
 	<property name="trans" value="${dist.image.viewer}"/>
 	<property name="target.html" value="${target}/test-html"/>
 
+	<!-- CSS Token -->
+	<property name="css.token" value="/** wsdl-viewer.css */"/>
 
 	<target name="init">
 		<!-- Create the build directory structure used in compilation step -->
@@ -40,10 +44,22 @@
 
 
 	<target name="createAllInOne" depends="init">
-		<xslt in="${modular-viewer}" out="${dist.image.viewer}" style="${all-in-one.trans}" force="true"/>
+		<xslt in="${modular-viewer}"
+			  out="${dist.image.viewer}"
+			  style="${all-in-one.trans}"
+			  force="true"/>
 	</target>
 
-	<target name="createPackage" depends="init, createAllInOne">
+	<target name="replaceCSS" depends="init, createAllInOne">
+		<loadfile property="css.content" srcFile="${app}/wsdl-viewer.css">
+			<!--filterchain>
+				<striplinebreaks/>
+			</filterchain-->
+		</loadfile>
+		<replace file="${dist.image.viewer}" token="${css.token}" value="${css.content}"/>
+	</target>
+
+	<target name="createPackage" depends="init, createAllInOne, replaceCSS">
 		<copy todir="${dist.image}/src" >
 			<fileset dir="${app}">
 				<exclude name="**/*.wsdl*"/>
@@ -65,7 +81,9 @@
 		<zip basedir="${dist.image}" destfile="${dist.zip}"/>
 
 		<tar tarfile="${dist.tar}" basedir="${dist.image}"/>
-		<gzip zipfile="${dist.tar.gz}" src="${dist.tar}"/>
+		<gzip destfile="${dist.tar.gz}" src="${dist.tar}"/>
+		<bzip2 destfile="${dist.tar.bz2}" src="${dist.tar}"/>
+		<!--xz destfile="${dist.tar.xz}" src="${dist.tar}"/-->
 
 		<delete file="${dist.tar}" failonerror="false"/>
 
