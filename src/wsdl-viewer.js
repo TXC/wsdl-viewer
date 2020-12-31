@@ -1,29 +1,26 @@
-function pagingInit()
-{
-	var nav = document.getElementById("nav");
-	var tabs = nav.getElementsByTagName("li");
-	for(ii = 0; ii < nav.length; ++ii) {
-		tabs[ii].className = "close";
-		aa = nav[ii].getElementsByTagName("a")
-//		aa.onclick = function() { activate(this.href); return false; }
-		if ( ii = 0 ) {
-			aa.className = "current";
-		}
-	}
-	print("DONE!");
+function pagingInit() {
+    let nav = document.getElementById('nav'),
+        tabs = nav.getElementsByTagName('li'),
+        aa;
+    console.log('Paging init!')
+    for (let i = 0; i < nav.length; ++i) {
+        tabs[i].className = 'close'
+        aa = nav[i].getElementsByTagName('a')
+        //aa.onclick = function() { activate(this.href); return false; }
+        if (i === 0) {
+            aa.className = 'current'
+        }
+    }
+    console.log('DONE!')
 }
 
-function pagingActivate(name)
-{
-// 	var page
-//   if (curHeader.className=="close")
-//   {
-//     curHeader.className="";
-//     curHeader.firstChild.className="";
-//   }
-//   else if (curHeader.className=="")
-//   {
-//     curHeader.className="close";
-//     curHeader.firstChild.className="close";
-//   }
+function pagingActivate(name) {
+//  let page
+//  if (curHeader.className === 'close') {
+//    curHeader.className = ''
+//    curHeader.firstChild.className = ''
+//  } else if (curHeader.className === '') {
+//    curHeader.className = 'close'
+//    curHeader.firstChild.className = 'close'
+//  }
 }
