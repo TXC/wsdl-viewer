@@ -42,7 +42,6 @@
 		<mkdir dir="${dist}"/>
 	</target>
 
-
 	<target name="createAllInOne" depends="init">
 		<xslt in="${modular-viewer}"
 			  out="${dist.image.viewer}"
@@ -76,6 +75,7 @@
 
 		<copy todir="${dist}" >
 			<fileset file="${dist.image.viewer}"/>
+			<fileset file="${dist.image}/src/wsdl-viewer.js"/>
 		</copy>
 
 		<zip basedir="${dist.image}" destfile="${dist.zip}"/>
@@ -93,7 +93,12 @@
 	</target>
 
 	<target name="test" depends="createPackage">
-		<xslt basedir="${test}" destdir="${target.html}" includes="**/*.wsdl" extension=".html" style="${trans}" force="true"/>
+		<xslt basedir="${test}"
+			  destdir="${target.html}"
+			  includes="**/*.wsdl"
+			  extension=".html"
+			  style="${trans}"
+			  force="true"/>
 	</target>
 
 	<target name="clean">
